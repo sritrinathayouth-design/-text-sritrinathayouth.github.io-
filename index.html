@@ -5,16 +5,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ganesh Utsav 2026</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #fff9f0; color: #333; }
-        h1 { color: #d9381e; }
-        .card { background: white; max-width: 500px; margin: 0 auto; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        /* CSS Styling for clean appearance */
+        :root {
+            --primary-color: #d32f2f;
+            --accent-color: #ff9800;
+            --bg-color: #fff8f0;
+            --text-color: #2c3e50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #b71c1c, #e65100);
+            color: #ffffff;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: #ffe0b2;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 8px;
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        th {
+            background-color: #ffe0b2;
+            color: #b71c1c;
+        }
+
+        .btn-whatsapp {
+            display: inline-block;
+            background-color: #25d366;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #2c3e50;
+            color: #ffffff;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h1>Welcome to Ganesh Utsav 2026</h1>
-        <p>Join us for daily Darshan & Aarti!</p>
-        <p><strong>Dates:</strong> Sept 14, 2026 – Sept 23, 2026</p>
+
+    <header>
+        <h1>|| Shri Ganesh Utsav 2026 ||</h1>
+        <p>Celebrating Devotion, Unity & Tradition</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- Welcome Section -->
+        <div class="card">
+            <h2>Welcome & Event Details</h2>
+            <p>We invite you and your family to join us for the auspicious occasion of Ganesh Utsav 2026. Experience daily Darshan, Aarti, and cultural events.</p>
+            <p><strong>Festival Dates:</strong> September 14, 2026 – September 23, 2026</p>
+            <p><strong>Location:</strong> Main Pandal Ground, Community Center</p>
+        </div>
+
+        <!-- Schedule Section -->
+        <div class="card">
+            <h2>Daily Schedule & Timings</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Event</th>
+                        <th>Morning Timing</th>
+                        <th>Evening Timing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Main Aarti</strong></td>
+                        <td>07:30 AM</td>
+                        <td>08:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Maha Prasad distribution</strong></td>
+                        <td>12:30 PM</td>
+                        <td>09:00 PM</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cultural Programs</strong></td>
+                        <td>—</td>
+                        <td>06:30 PM - 08:00 PM</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Live Stream & Contact Section -->
+        <div class="card" style="text-align: center;">
+            <h2>Live Darshan & Contact</h2>
+            <p>For inquiries, volunteering, or online donations (Vargani), connect with us directly on WhatsApp.</p>
+            <a href="https://wa.me/" class="btn-whatsapp" target="_blank">Contact on WhatsApp</a>
+        </div>
+
     </div>
+
+    <footer>
+        <p>© 2026 Ganesh Utsav Samiti | All Rights Reserved</p>
+    </footer>
+
 </body>
 </html>
