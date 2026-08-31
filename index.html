@@ -5,61 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sri Trinatha Youth - Somappa Colony</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body { 
-            font-family: Arial, sans-serif; 
+            font-family: 'Segoe UI', Arial, sans-serif; 
             text-align: center; 
-            padding: 40px 15px; 
+            padding: 30px 15px; 
             background-color: #fff9f0; 
             color: #333; 
-            margin: 0;
             line-height: 1.6;
         }
 
         header {
             background: linear-gradient(135deg, #b71c1c, #e65100);
             color: #ffffff;
-            padding: 30px 15px;
-            border-radius: 10px;
-            max-width: 600px;
-            margin: 0 auto 25px auto;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            padding: 35px 20px;
+            border-radius: 12px;
+            max-width: 650px;
+            margin: 0 auto 30px auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         header h1 {
-            margin: 0;
-            font-size: 1.8rem;
+            font-size: 2rem;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         header p {
-            margin: 8px 0 0 0;
-            font-size: 1rem;
+            margin-top: 8px;
+            font-size: 1.1rem;
             color: #ffe0b2;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 0 auto;
         }
 
         .card { 
             background: #ffffff; 
-            max-width: 600px; 
-            margin: 0 auto 25px auto; 
+            margin-bottom: 25px; 
             padding: 25px; 
-            border-radius: 10px; 
+            border-radius: 12px; 
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
             text-align: left;
-            border-left: 5px solid #d9381e;
+            border-left: 6px solid #d9381e;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
         }
 
         .card h2 {
             color: #d9381e;
             font-size: 1.4rem;
-            margin-top: 0;
             border-bottom: 2px solid #ff9800;
             padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 0.98rem;
+            color: #555;
+            margin-bottom: 15px;
         }
 
         .btn-container {
-            text-align: center;
-            margin-top: 15px;
+            text-align: right;
         }
 
         .btn-tile {
@@ -68,8 +86,9 @@
             color: #ffffff;
             padding: 10px 20px;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 6px;
             font-weight: bold;
+            font-size: 0.9rem;
             transition: background 0.3s;
         }
 
@@ -77,71 +96,79 @@
             background-color: #b71c1c;
         }
 
+        .whatsapp-card {
+            text-align: center;
+            border-left: 6px solid #25d366;
+        }
+
         .btn-whatsapp {
             display: inline-block;
             background-color: #25d366;
             color: #ffffff;
-            padding: 12px 24px;
+            padding: 12px 28px;
             text-decoration: none;
             border-radius: 25px;
             font-weight: bold;
+            font-size: 1rem;
         }
 
         footer {
             margin-top: 40px;
             font-size: 0.85rem;
-            color: #666;
+            color: #777;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header Section -->
+    <!-- Main Header -->
     <header>
         <h1>SRI TRINATHA YOUTH</h1>
         <p>Somappa Colony | Official Portal</p>
     </header>
 
-    <!-- Welcome Card -->
-    <div class="card">
-        <h2>About Our Association</h2>
-        <p>Welcome to the official portal of <strong>Sri Trinatha Youth, Somappa Colony</strong>. Explore our major festival celebrations below.</p>
-    </div>
+    <div class="container">
 
-    <!-- Festival Tile 1: Pongal -->
-    <div class="card">
-        <h2>Pongal Celebrations</h2>
-        <p>Annual harvest festival events, games, rangoli competitions, and community feast details.</p>
-        <div class="btn-container">
-            <a href="pongal.html" class="btn-tile">View Details & Schedule</a>
+        <!-- About Card -->
+        <div class="card">
+            <h2>About Our Youth Group</h2>
+            <p>Welcome to the official portal of <strong>Sri Trinatha Youth, Somappa Colony</strong>. Select a festival tile below to view detailed event info and programs.</p>
         </div>
-    </div>
 
-    <!-- Festival Tile 2: Maha Shivaratri -->
-    <div class="card">
-        <h2>Maha Shivaratri</h2>
-        <p>Devotional Jagaram, special Abhishekam, and night-long cultural event details.</p>
-        <div class="btn-container">
-            <a href="shivaratri.html" class="btn-tile">View Details & Schedule</a>
+        <!-- Tile 1: Pongal -->
+        <div class="card">
+            <h2>1. Pongal Celebrations</h2>
+            <p>Explore details regarding annual harvest festival celebrations, games, rangoli competitions, and community events.</p>
+            <div class="btn-container">
+                <a href="pongal.html" class="btn-tile">Open Festival Details →</a>
+            </div>
         </div>
-    </div>
 
-    <!-- Festival Tile 3: Ganesh Utsav -->
-    <div class="card">
-        <h2>Ganesh Utsav</h2>
-        <p>Pandal setup, daily Aarti timings, Maha Prasad distribution, and Visarjan details.</p>
-        <div class="btn-container">
-            <a href="ganesh-utsav.html" class="btn-tile">View Details & Schedule</a>
+        <!-- Tile 2: Maha Shivaratri -->
+        <div class="card">
+            <h2>2. Maha Shivaratri</h2>
+            <p>Explore information on Puja schedules, devotional Jagaram programs, and Shivaratri cultural arrangements.</p>
+            <div class="btn-container">
+                <a href="shivaratri.html" class="btn-tile">Open Festival Details →</a>
+            </div>
         </div>
-    </div>
 
-    <!-- Contact Card -->
-    <div class="card">
-        <h2>Connect With Us</h2>
-        <p>For donations (Vargani), volunteering, or inquiries in Somappa Colony, contact our team.</p>
-        <div class="btn-container">
+        <!-- Tile 3: Ganesh Utsav -->
+        <div class="card">
+            <h2>3. Ganesh Utsav</h2>
+            <p>Explore pandal setup, daily Aarti schedules, Maha Prasad distributions, and Visarjan procession info.</p>
+            <div class="btn-container">
+                <a href="ganesh-utsav.html" class="btn-tile">Open Festival Details →</a>
+            </div>
+        </div>
+
+        <!-- WhatsApp Contact -->
+        <div class="card whatsapp-card">
+            <h2 style="color: #25d366; border-bottom: 2px solid #25d366;">Connect With Us</h2>
+            <p>For donations (Vargani), volunteering, or event inquiries in Somappa Colony, feel free to contact us.</p>
             <a href="https://wa.me/" class="btn-whatsapp" target="_blank">Contact on WhatsApp</a>
         </div>
+
     </div>
 
     <footer>
