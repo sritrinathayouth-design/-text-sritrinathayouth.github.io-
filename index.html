@@ -3,58 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ganesh Utsav 2026</title>
+    <title>Sri Trinatha Youth - Somappa Colony</title>
     <style>
         body { 
             font-family: Arial, sans-serif; 
             text-align: center; 
-            padding: 50px 20px; 
+            padding: 40px 15px; 
             background-color: #fff9f0; 
             color: #333; 
             margin: 0;
             line-height: 1.6;
         }
 
-        h1 { 
-            color: #d9381e; 
-            margin-bottom: 10px;
-            font-size: 2.2rem;
+        header {
+            background: linear-gradient(135deg, #b71c1c, #e65100);
+            color: #ffffff;
+            padding: 30px 15px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto 25px auto;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            margin: 8px 0 0 0;
+            font-size: 1rem;
+            color: #ffe0b2;
         }
 
         .card { 
             background: #ffffff; 
-            max-width: 500px; 
-            margin: 0 auto 20px auto; 
+            max-width: 600px; 
+            margin: 0 auto 25px auto; 
             padding: 25px; 
             border-radius: 10px; 
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
             text-align: left;
+            border-left: 5px solid #d9381e;
         }
 
         .card h2 {
             color: #d9381e;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-top: 0;
-            text-align: center;
             border-bottom: 2px solid #ff9800;
             padding-bottom: 8px;
-        }
-
-        .schedule-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .schedule-list li {
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .schedule-list li:last-child {
-            border-bottom: none;
         }
 
         .btn-container {
@@ -62,7 +62,22 @@
             margin-top: 15px;
         }
 
-        .btn {
+        .btn-tile {
+            display: inline-block;
+            background-color: #d9381e;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-tile:hover {
+            background-color: #b71c1c;
+        }
+
+        .btn-whatsapp {
             display: inline-block;
             background-color: #25d366;
             color: #ffffff;
@@ -71,36 +86,67 @@
             border-radius: 25px;
             font-weight: bold;
         }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #666;
+        }
     </style>
 </head>
 <body>
 
-    <h1>|| Shri Ganesh Utsav 2026 ||</h1>
-    <p>Welcome to the official portal for daily Darshan, Aarti, & Event details.</p>
+    <!-- Header Section -->
+    <header>
+        <h1>SRI TRINATHA YOUTH</h1>
+        <p>Somappa Colony | Official Portal</p>
+    </header>
 
+    <!-- Welcome Card -->
     <div class="card">
-        <h2>Festival Info</h2>
-        <p><strong>Dates:</strong> September 14, 2026 – September 23, 2026</p>
-        <p><strong>Venue:</strong> Main Community Hall Ground</p>
-        <p>Join us daily with family and friends to receive Bappa's blessings!</p>
+        <h2>About Our Association</h2>
+        <p>Welcome to the official portal of <strong>Sri Trinatha Youth, Somappa Colony</strong>. Explore our major festival celebrations below.</p>
     </div>
 
+    <!-- Festival Tile 1: Pongal -->
     <div class="card">
-        <h2>Daily Schedule</h2>
-        <ul class="schedule-list">
-            <li><span>Morning Aarti:</span> <strong>07:30 AM</strong></li>
-            <li><span>Maha Prasad:</span> <strong>12:30 PM</strong></li>
-            <li><span>Evening Aarti:</span> <strong>08:00 PM</strong></li>
-        </ul>
-    </div>
-
-    <div class="card">
-        <h2>Get Involved</h2>
-        <p>For donations (Vargani), stall bookings, or cultural event participation, get in touch with our team.</p>
+        <h2>Pongal Celebrations</h2>
+        <p>Annual harvest festival events, games, rangoli competitions, and community feast details.</p>
         <div class="btn-container">
-            <a href="https://wa.me/" class="btn" target="_blank">Contact via WhatsApp</a>
+            <a href="pongal.html" class="btn-tile">View Details & Schedule</a>
         </div>
     </div>
+
+    <!-- Festival Tile 2: Maha Shivaratri -->
+    <div class="card">
+        <h2>Maha Shivaratri</h2>
+        <p>Devotional Jagaram, special Abhishekam, and night-long cultural event details.</p>
+        <div class="btn-container">
+            <a href="shivaratri.html" class="btn-tile">View Details & Schedule</a>
+        </div>
+    </div>
+
+    <!-- Festival Tile 3: Ganesh Utsav -->
+    <div class="card">
+        <h2>Ganesh Utsav</h2>
+        <p>Pandal setup, daily Aarti timings, Maha Prasad distribution, and Visarjan details.</p>
+        <div class="btn-container">
+            <a href="ganesh-utsav.html" class="btn-tile">View Details & Schedule</a>
+        </div>
+    </div>
+
+    <!-- Contact Card -->
+    <div class="card">
+        <h2>Connect With Us</h2>
+        <p>For donations (Vargani), volunteering, or inquiries in Somappa Colony, contact our team.</p>
+        <div class="btn-container">
+            <a href="https://wa.me/" class="btn-whatsapp" target="_blank">Contact on WhatsApp</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>© Sri Trinatha Youth, Somappa Colony. All Rights Reserved.</p>
+    </footer>
 
 </body>
 </html>
