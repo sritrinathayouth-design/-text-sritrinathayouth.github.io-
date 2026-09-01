@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donations Dashboard 2026 - Sri Trinatha Youth</title>
+
+    <!-- jsPDF and AutoTable for Instant PDF Receipt Generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
     <style>
         * {
             box-sizing: border-box;
@@ -64,88 +69,140 @@
             margin: 0 auto;
         }
 
-        /* Summary Dashboard Metrics Grid */
+        /* Top Summary Metrics & Download All Tile */
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
             margin-bottom: 25px;
         }
 
         .metric-card {
             background: #ffffff;
-            padding: 25px;
+            padding: 22px;
             border-radius: 12px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
             border-left: 6px solid #d9381e;
             text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .metric-card.accent {
             border-left-color: #2e7d32;
         }
 
+        .metric-card.action-card {
+            border-left-color: #1976d2;
+            background: #f0f7ff;
+        }
+
         .metric-title {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: bold;
-            color: #666;
+            color: #555;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .metric-value {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: bold;
             color: #d9381e;
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .metric-card.accent .metric-value {
             color: #2e7d32;
         }
 
-        .card { 
-            background: #ffffff; 
-            margin-bottom: 25px; 
-            padding: 25px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
-            text-align: left;
-        }
-
-        .card h2 {
-            color: #d9381e;
-            font-size: 1.3rem;
-            border-bottom: 2px solid #ff9800;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-        }
-
-        .spreadsheet-container {
-            width: 100%;
-            height: 500px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-top: 15px;
-        }
-
-        .spreadsheet-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .btn-sheet {
+        /* Download All Button Styling */
+        .btn-download-all {
             display: inline-block;
-            background-color: #2e7d32;
+            background-color: #1976d2;
             color: #ffffff;
-            padding: 10px 20px;
-            text-decoration: none;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+
+        .btn-download-all:hover {
+            background-color: #115293;
+        }
+
+        /* Donor List Styling */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ff9800;
+        }
+
+        .section-header h2 {
+            color: #d9381e;
+            font-size: 1.4rem;
+        }
+
+        .donor-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .donor-tile {
+            background: #ffffff;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid #ff9800;
+            text-align: left;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .donor-info h3 {
+            color: #222;
+            font-size: 1.15rem;
+            margin-bottom: 4px;
+        }
+
+        .donor-info p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .donor-amount {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .btn-receipt {
+            background-color: #d9381e;
+            color: #ffffff;
+            border: none;
+            padding: 8px 16px;
             border-radius: 6px;
             font-weight: bold;
-            font-size: 0.9rem;
-            margin-top: 15px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-receipt:hover {
+            background-color: #b71c1c;
         }
 
         footer {
@@ -170,36 +227,38 @@
 
     <div class="container">
 
-        <!-- Summary Metric Cards -->
+        <!-- Metrics & Actions Grid -->
         <div class="metrics-grid">
             
-            <!-- Tile 1: Count of Donations (Column A) -->
+            <!-- Tile 1: Total Count -->
             <div class="metric-card">
                 <div class="metric-title">Total Donations Count</div>
                 <div class="metric-value" id="donationCount">Loading...</div>
             </div>
 
-            <!-- Tile 2: Sum of Donations Amount (Column C) -->
+            <!-- Tile 2: Total Sum -->
             <div class="metric-card accent">
                 <div class="metric-title">Total Amount Collected</div>
                 <div class="metric-value" id="donationSum">Loading...</div>
             </div>
 
-        </div>
-
-        <!-- Embedded Spreadsheet Section -->
-        <div class="card">
-            <h2>Live Donors List & Details</h2>
-            <p>Below is the live updated record from our official donations spreadsheet.</p>
-            
-            <div class="spreadsheet-container">
-                <iframe src="https://docs.google.com/spreadsheets/d/19yXWLDgER536zBeVi28EDTa7pC6kxo-HNXXC8lTqFxQ/preview?gid=0"></iframe>
+            <!-- Tile 3: Download All Receipts Button Tile -->
+            <div class="metric-card action-card">
+                <div class="metric-title">Receipts Export</div>
+                <p style="font-size: 0.85rem; color: #555; margin-top: 4px;">Download all donation receipts as a consolidated PDF statement.</p>
+                <button class="btn-download-all" onclick="downloadAllReceipts()">📄 Download All Receipts</button>
             </div>
 
-            <div style="text-align: right;">
-                <a href="https://docs.google.com/spreadsheets/d/19yXWLDgER536zBeVi28EDTa7pC6kxo-HNXXC8lTqFxQ/edit?gid=0#gid=0" target="_blank" class="btn-sheet">
-                    Open Full Sheet ↗
-                </a>
+        </div>
+
+        <!-- Donor List Section -->
+        <div style="background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);">
+            <div class="section-header">
+                <h2>Live Donors List & Contribution Details</h2>
+            </div>
+
+            <div class="donor-list" id="donorListContainer">
+                <p style="text-align: center; color: #888;">Fetching live donor records...</p>
             </div>
         </div>
 
@@ -209,53 +268,182 @@
         <p>© Sri Trinatha Youth, Somappa Colony. All Rights Reserved.</p>
     </footer>
 
-    <!-- Script to Fetch CSV Data and Calculate Totals -->
+    <!-- JavaScript Data Handler & Receipt PDF Generator -->
     <script>
         const sheetID = '19yXWLDgER536zBeVi28EDTa7pC6kxo-HNXXC8lTqFxQ';
         const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=DONATIONS`;
+
+        let donorsData = [];
 
         fetch(csvUrl)
             .then(response => response.text())
             .then(csvText => {
                 const rows = csvText.split('\n').filter(row => row.trim() !== '');
-                
-                // Exclude header row if present
-                const dataRows = rows.slice(1);
-                
-                // Tile 1: Count of Column A
+                const dataRows = rows.slice(1); // Exclude header row
+
                 let count = 0;
                 let totalSum = 0;
+                donorsData = [];
 
-                dataRows.forEach(row => {
-                    // Parse CSV row respecting quoted fields
+                dataRows.forEach((row, index) => {
                     const columns = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || row.split(',');
                     
                     if (columns && columns.length > 0) {
-                        const colA = columns[0] ? columns[0].replace(/"/g, '').trim() : '';
+                        const colA = columns[0] ? columns[0].replace(/"/g, '').trim() : `Donor #${index + 1}`;
+                        const colB = columns[1] ? columns[1].replace(/"/g, '').trim() : 'General Contribution';
+                        let colCVal = columns[2] ? columns[2].replace(/"/g, '').replace(/[^0-9.-]+/g, '') : '0';
+                        let numAmount = parseFloat(colCVal) || 0;
+
                         if (colA !== '') {
                             count++;
-                        }
-                    }
+                            totalSum += numAmount;
 
-                    if (columns && columns.length >= 3) {
-                        // Extract Column C value and clean currency characters
-                        let colCVal = columns[2] ? columns[2].replace(/"/g, '').replace(/[^0-9.-]+/g, '') : '0';
-                        let num = parseFloat(colCVal);
-                        if (!isNaN(num)) {
-                            totalSum += num;
+                            donorsData.push({
+                                id: index + 1,
+                                name: colA,
+                                category: colB,
+                                amount: numAmount
+                            });
                         }
                     }
                 });
 
-                // Display results in dashboard tiles
+                // Update Metric Summary Tiles
                 document.getElementById('donationCount').innerText = count;
                 document.getElementById('donationSum').innerText = '₹ ' + totalSum.toLocaleString('en-IN');
+
+                // Render Donor Cards List
+                renderDonorList(donorsData);
             })
             .catch(error => {
-                console.error('Error fetching Google Sheet data:', error);
-                document.getElementById('donationCount').innerText = 'N/A';
-                document.getElementById('donationSum').innerText = 'N/A';
+                console.error('Error loading donation records:', error);
+                document.getElementById('donorListContainer').innerHTML = '<p style="color: red;">Unable to load donor list. Please check sheet permissions.</p>';
             });
+
+        function renderDonorList(donors) {
+            const container = document.getElementById('donorListContainer');
+            if (donors.length === 0) {
+                container.innerHTML = '<p style="color: #666;">No donation records found.</p>';
+                return;
+            }
+
+            container.innerHTML = '';
+            donors.forEach((donor, idx) => {
+                const tile = document.createElement('div');
+                tile.className = 'donor-tile';
+                tile.innerHTML = `
+                    <div class="donor-info">
+                        <h3>${donor.name}</h3>
+                        <p><strong>Ref / Details:</strong> ${donor.category} | <strong>ID:</strong> STY-2026-${String(donor.id).padStart(3, '0')}</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 20px;">
+                        <div class="donor-amount">₹ ${donor.amount.toLocaleString('en-IN')}</div>
+                        <button class="btn-receipt" onclick="downloadSingleReceipt(${idx})">Download Receipt</button>
+                    </div>
+                `;
+                container.appendChild(tile);
+            });
+        }
+
+        /* Generate Individual PDF Receipt */
+        function downloadSingleReceipt(index) {
+            const donor = donorsData[index];
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Header Banner
+            doc.setFillColor(183, 28, 28);
+            doc.rect(0, 0, 210, 35, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(18);
+            doc.setFont("helvetica", "bold");
+            doc.text("SRI TRINATHA YOUTH", 105, 18, { align: "center" });
+            doc.setFontSize(11);
+            doc.setFont("helvetica", "normal");
+            doc.text("Somappa Colony | Official Donation Receipt", 105, 27, { align: "center" });
+
+            // Receipt Box
+            doc.setDrawColor(217, 56, 30);
+            doc.setLineWidth(0.8);
+            doc.rect(15, 45, 180, 110);
+
+            doc.setTextColor(50, 50, 50);
+            doc.setFontSize(13);
+            doc.setFont("helvetica", "bold");
+            doc.text("DONATION RECEIPT", 105, 58, { align: "center" });
+
+            // Details
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "normal");
+            doc.text(`Receipt No: STY-2026-${String(donor.id).padStart(3, '0')}`, 25, 75);
+            doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, 140, 75);
+
+            doc.setFontSize(11);
+            doc.text(`Received with thanks from:`, 25, 90);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(13);
+            doc.text(`${donor.name}`, 25, 100);
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(11);
+            doc.text(`The sum of Rupees:`, 25, 115);
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(46, 125, 50);
+            doc.setFontSize(14);
+            doc.text(`INR ${donor.amount.toLocaleString('en-IN')} /-`, 25, 125);
+
+            doc.setTextColor(80, 80, 80);
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(10);
+            doc.text(`Towards: Ganesh Utsav 2026 Celebrations (${donor.category})`, 25, 140);
+
+            // Stamp / Signature Note
+            doc.setFontSize(9);
+            doc.text("Authorized Representative", 140, 145);
+            doc.text("Sri Trinatha Youth Committee", 140, 150);
+
+            doc.save(`Receipt_${donor.name.replace(/\s+/g, '_')}.pdf`);
+        }
+
+        /* Generate Consolidated PDF with All Receipts / Donors Table */
+        function downloadAllReceipts() {
+            if (donorsData.length === 0) {
+                alert("No donor data loaded yet.");
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Header Banner
+            doc.setFillColor(183, 28, 28);
+            doc.rect(0, 0, 210, 32, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(16);
+            doc.setFont("helvetica", "bold");
+            doc.text("SRI TRINATHA YOUTH - SOMAPPA COLONY", 105, 16, { align: "center" });
+            doc.setFontSize(11);
+            doc.setFont("helvetica", "normal");
+            doc.text("Consolidated Donations Register & Receipts Summary (2026)", 105, 25, { align: "center" });
+
+            const tableRows = donorsData.map(d => [
+                `STY-2026-${String(d.id).padStart(3, '0')}`,
+                d.name,
+                d.category,
+                `Rs. ${d.amount.toLocaleString('en-IN')}`
+            ]);
+
+            doc.autoTable({
+                startY: 40,
+                head: [['Receipt ID', 'Donor Name', 'Details / Category', 'Amount Contributed']],
+                body: tableRows,
+                headStyles: { fillColor: [217, 56, 30], textColor: [255, 255, 255], fontStyle: 'bold' },
+                alternateRowStyles: { fillColor: [250, 245, 240] },
+                margin: { top: 40 },
+            });
+
+            doc.save("Sri_Trinatha_Youth_All_Donation_Receipts.pdf");
+        }
     </script>
 
 </body>
