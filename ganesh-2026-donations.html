@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donations Dashboard 2026 - Sri Trinatha Youth</title>
 
-    <!-- jsPDF and AutoTable for Instant PDF Receipt Generation -->
+    <!-- jsPDF Library for PDF Generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
 
     <style>
         * {
@@ -69,7 +68,7 @@
             margin: 0 auto;
         }
 
-        /* Top Summary Metrics & Download All Tile */
+        /* Top Summary Metrics Grid */
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -94,8 +93,8 @@
         }
 
         .metric-card.action-card {
-            border-left-color: #1976d2;
-            background: #f0f7ff;
+            border-left-color: #ff8f00;
+            background: #fff8e1;
         }
 
         .metric-title {
@@ -117,10 +116,9 @@
             color: #2e7d32;
         }
 
-        /* Download All Button Styling */
         .btn-download-all {
             display: inline-block;
-            background-color: #1976d2;
+            background-color: #e65100;
             color: #ffffff;
             padding: 12px 18px;
             border: none;
@@ -134,10 +132,9 @@
         }
 
         .btn-download-all:hover {
-            background-color: #115293;
+            background-color: #bf360c;
         }
 
-        /* Donor List Styling */
         .section-header {
             display: flex;
             justify-content: space-between;
@@ -230,22 +227,19 @@
         <!-- Metrics & Actions Grid -->
         <div class="metrics-grid">
             
-            <!-- Tile 1: Total Count -->
             <div class="metric-card">
                 <div class="metric-title">Total Donations Count</div>
                 <div class="metric-value" id="donationCount">Loading...</div>
             </div>
 
-            <!-- Tile 2: Total Sum -->
             <div class="metric-card accent">
                 <div class="metric-title">Total Amount Collected</div>
                 <div class="metric-value" id="donationSum">Loading...</div>
             </div>
 
-            <!-- Tile 3: Download All Receipts Button Tile -->
             <div class="metric-card action-card">
-                <div class="metric-title">Receipts Export</div>
-                <p style="font-size: 0.85rem; color: #555; margin-top: 4px;">Download all donation receipts as a consolidated PDF statement.</p>
+                <div class="metric-title">Printable 4-in-1 Export</div>
+                <p style="font-size: 0.85rem; color: #555; margin-top: 4px;">Download 1/4 A4 size colored receipts (4 per page) formatted for printing.</p>
                 <button class="btn-download-all" onclick="downloadAllReceipts()">📄 Download All Receipts</button>
             </div>
 
@@ -268,7 +262,7 @@
         <p>© Sri Trinatha Youth, Somappa Colony. All Rights Reserved.</p>
     </footer>
 
-    <!-- JavaScript Data Handler & Receipt PDF Generator -->
+    <!-- JavaScript Data Handler & PDF Generator -->
     <script>
         const sheetID = '19yXWLDgER536zBeVi28EDTa7pC6kxo-HNXXC8lTqFxQ';
         const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=DONATIONS`;
@@ -279,7 +273,7 @@
             .then(response => response.text())
             .then(csvText => {
                 const rows = csvText.split('\n').filter(row => row.trim() !== '');
-                const dataRows = rows.slice(1); // Exclude header row
+                const dataRows = rows.slice(1);
 
                 let count = 0;
                 let totalSum = 0;
@@ -308,11 +302,9 @@
                     }
                 });
 
-                // Update Metric Summary Tiles
                 document.getElementById('donationCount').innerText = count;
                 document.getElementById('donationSum').innerText = '₹ ' + totalSum.toLocaleString('en-IN');
 
-                // Render Donor Cards List
                 renderDonorList(donorsData);
             })
             .catch(error => {
@@ -334,7 +326,7 @@
                 tile.innerHTML = `
                     <div class="donor-info">
                         <h3>${donor.name}</h3>
-                        <p><strong>Ref / Details:</strong> ${donor.category} | <strong>ID:</strong> STY-2026-${String(donor.id).padStart(3, '0')}</p>
+                        <p><strong>Category:</strong> ${donor.category} | <strong>Receipt No:</strong> STY-2026-${String(donor.id).padStart(3, '0')}</p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 20px;">
                         <div class="donor-amount">₹ ${donor.amount.toLocaleString('en-IN')}</div>
@@ -345,104 +337,163 @@
             });
         }
 
-        /* Generate Individual PDF Receipt */
+        /* Helper to Draw a Single Colorful 1/4 A4 Sized Receipt Slip */
+        function drawReceiptSlip(doc, x, y, width, height, donor) {
+            // Background Fill & Double Border
+            doc.setFillColor(255, 252, 245);
+            doc.rect(x, y, width, height, 'F');
+
+            doc.setDrawColor(183, 28, 28); // Crimson Red Outer Border
+            doc.setLineWidth(1);
+            doc.rect(x + 1.5, y + 1.5, width - 3, height - 3);
+
+            doc.setDrawColor(255, 143, 0); // Inner Gold Border
+            doc.setLineWidth(0.5);
+            doc.rect(x + 3, y + 3, width - 6, height - 6);
+
+            // Header Banner Fill
+            doc.setFillColor(183, 28, 28);
+            doc.rect(x + 3.5, y + 3.5, width - 7, 22, 'F');
+
+            // Header Text
+            doc.setTextColor(255, 235, 59); // Yellow / Gold Text
+            doc.setFontSize(7);
+            doc.setFont("helvetica", "bold");
+            doc.text("|| SHRI GANESHAYA NAMAH ||", x + (width / 2), y + 7.5, { align: "center" });
+
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(10.5);
+            doc.setFont("helvetica", "bold");
+            doc.text("SRI TRINATHA YOUTH", x + (width / 2), y + 13, { align: "center" });
+
+            doc.setFontSize(6.5);
+            doc.setFont("helvetica", "normal");
+            doc.text("Somappa Colony | Ganesh Utsav 2026", x + (width / 2), y + 18, { align: "center" });
+
+            // Lord Ganesha Decorative Motif Text / Icon Symbol
+            doc.setTextColor(183, 28, 28);
+            doc.setFontSize(18);
+            doc.setFont("helvetica", "bold");
+            doc.text("卐 🕉 卐", x + (width / 2), y + 32, { align: "center" });
+
+            // Receipt Title Line
+            doc.setDrawColor(183, 28, 28);
+            doc.setFillColor(255, 243, 224);
+            doc.roundedRect(x + 20, y + 36, width - 40, 6, 1, 1, 'FD');
+
+            doc.setFontSize(7.5);
+            doc.setTextColor(183, 28, 28);
+            doc.text("OFFICIAL DONATION RECEIPT", x + (width / 2), y + 40.2, { align: "center" });
+
+            // Receipt Info Grid
+            doc.setTextColor(50, 50, 50);
+            doc.setFontSize(7.5);
+            doc.setFont("helvetica", "normal");
+
+            doc.text(`No: STY-2026-${String(donor.id).padStart(3, '0')}`, x + 6, y + 49);
+            doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, x + width - 6, y + 49, { align: "right" });
+
+            doc.setDrawColor(230, 230, 230);
+            doc.line(x + 6, y + 51, x + width - 6, y + 51);
+
+            // Donor Name
+            doc.text("Received with thanks from:", x + 6, y + 57);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(9);
+            doc.setTextColor(183, 28, 28);
+            doc.text(`${donor.name}`, x + 6, y + 64);
+
+            // Category & Details
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(7);
+            doc.setTextColor(80, 80, 80);
+            doc.text(`Towards: ${donor.category}`, x + 6, y + 71);
+
+            // Amount Box
+            doc.setFillColor(232, 245, 233);
+            doc.setDrawColor(46, 125, 50);
+            doc.rect(x + 6, y + 76, width - 12, 12, 'FD');
+
+            doc.setTextColor(46, 125, 50);
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(8);
+            doc.text("AMOUNT:", x + 10, y + 83.5);
+            doc.setFontSize(10.5);
+            doc.text(`Rs. ${donor.amount.toLocaleString('en-IN')} /-`, x + width - 10, y + 84, { align: "right" });
+
+            // Footer Signature area
+            doc.setTextColor(100, 100, 100);
+            doc.setFontSize(6.5);
+            doc.setFont("helvetica", "normal");
+            doc.text("May Lord Ganesha Bless You & Your Family", x + (width / 2), y + 95, { align: "center" });
+
+            doc.setFont("helvetica", "bold");
+            doc.setTextColor(183, 28, 28);
+            doc.text("For SRI TRINATHA YOUTH", x + width - 8, y + 103, { align: "right" });
+
+            doc.setFont("helvetica", "normal");
+            doc.setTextColor(120, 120, 120);
+            doc.text("(Authorized Signatory)", x + width - 8, y + 108, { align: "right" });
+        }
+
+        /* Single 1/4 A4 Receipt Download */
         function downloadSingleReceipt(index) {
             const donor = donorsData[index];
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+            
+            // 1/4th A4 Dimensions: 100mm x 115mm Custom Page Size
+            const doc = new jsPDF({
+                orientation: 'p',
+                unit: 'mm',
+                format: [100, 115]
+            });
 
-            // Header Banner
-            doc.setFillColor(183, 28, 28);
-            doc.rect(0, 0, 210, 35, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(18);
-            doc.setFont("helvetica", "bold");
-            doc.text("SRI TRINATHA YOUTH", 105, 18, { align: "center" });
-            doc.setFontSize(11);
-            doc.setFont("helvetica", "normal");
-            doc.text("Somappa Colony | Official Donation Receipt", 105, 27, { align: "center" });
-
-            // Receipt Box
-            doc.setDrawColor(217, 56, 30);
-            doc.setLineWidth(0.8);
-            doc.rect(15, 45, 180, 110);
-
-            doc.setTextColor(50, 50, 50);
-            doc.setFontSize(13);
-            doc.setFont("helvetica", "bold");
-            doc.text("DONATION RECEIPT", 105, 58, { align: "center" });
-
-            // Details
-            doc.setFontSize(10);
-            doc.setFont("helvetica", "normal");
-            doc.text(`Receipt No: STY-2026-${String(donor.id).padStart(3, '0')}`, 25, 75);
-            doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, 140, 75);
-
-            doc.setFontSize(11);
-            doc.text(`Received with thanks from:`, 25, 90);
-            doc.setFont("helvetica", "bold");
-            doc.setFontSize(13);
-            doc.text(`${donor.name}`, 25, 100);
-
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(11);
-            doc.text(`The sum of Rupees:`, 25, 115);
-            doc.setFont("helvetica", "bold");
-            doc.setTextColor(46, 125, 50);
-            doc.setFontSize(14);
-            doc.text(`INR ${donor.amount.toLocaleString('en-IN')} /-`, 25, 125);
-
-            doc.setTextColor(80, 80, 80);
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(10);
-            doc.text(`Towards: Ganesh Utsav 2026 Celebrations (${donor.category})`, 25, 140);
-
-            // Stamp / Signature Note
-            doc.setFontSize(9);
-            doc.text("Authorized Representative", 140, 145);
-            doc.text("Sri Trinatha Youth Committee", 140, 150);
-
-            doc.save(`Receipt_${donor.name.replace(/\s+/g, '_')}.pdf`);
+            drawReceiptSlip(doc, 0, 0, 100, 115, donor);
+            doc.save(`Receipt_STY_2026_${donor.name.replace(/\s+/g, '_')}.pdf`);
         }
 
-        /* Generate Consolidated PDF with All Receipts / Donors Table */
+        /* Download All Receipts - 4 Per A4 Sheet Layout */
         function downloadAllReceipts() {
             if (donorsData.length === 0) {
-                alert("No donor data loaded yet.");
+                alert("No donor data available.");
                 return;
             }
 
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+            const doc = new jsPDF('p', 'mm', 'a4'); // Standard A4 (210mm x 297mm)
 
-            // Header Banner
-            doc.setFillColor(183, 28, 28);
-            doc.rect(0, 0, 210, 32, 'F');
-            doc.setTextColor(255, 255, 255);
-            doc.setFontSize(16);
-            doc.setFont("helvetica", "bold");
-            doc.text("SRI TRINATHA YOUTH - SOMAPPA COLONY", 105, 16, { align: "center" });
-            doc.setFontSize(11);
-            doc.setFont("helvetica", "normal");
-            doc.text("Consolidated Donations Register & Receipts Summary (2026)", 105, 25, { align: "center" });
+            const receiptWidth = 100;
+            const receiptHeight = 140;
 
-            const tableRows = donorsData.map(d => [
-                `STY-2026-${String(d.id).padStart(3, '0')}`,
-                d.name,
-                d.category,
-                `Rs. ${d.amount.toLocaleString('en-IN')}`
-            ]);
+            // Positioning 4 receipts in a 2x2 grid on A4
+            const positions = [
+                { x: 4, y: 6 },    // Top Left
+                { x: 106, y: 6 },  // Top Right
+                { x: 4, y: 150 },  // Bottom Left
+                { x: 106, y: 150 } // Bottom Right
+            ];
 
-            doc.autoTable({
-                startY: 40,
-                head: [['Receipt ID', 'Donor Name', 'Details / Category', 'Amount Contributed']],
-                body: tableRows,
-                headStyles: { fillColor: [217, 56, 30], textColor: [255, 255, 255], fontStyle: 'bold' },
-                alternateRowStyles: { fillColor: [250, 245, 240] },
-                margin: { top: 40 },
+            donorsData.forEach((donor, i) => {
+                const posIndex = i % 4;
+
+                // Add a new A4 page every 4 receipts
+                if (i > 0 && posIndex === 0) {
+                    doc.addPage();
+                }
+
+                // Draw Grid Cut Lines on A4
+                doc.setDrawColor(200, 200, 200);
+                doc.setLineDashPattern([2, 2], 0);
+                doc.line(105, 0, 105, 297); // Vertical Center Cutting Line
+                doc.line(0, 148.5, 210, 148.5); // Horizontal Center Cutting Line
+                doc.setLineDashPattern([], 0); // Reset dash pattern
+
+                // Draw the colorful receipt slip
+                const pos = positions[posIndex];
+                drawReceiptSlip(doc, pos.x, pos.y, receiptWidth, receiptHeight, donor);
             });
 
-            doc.save("Sri_Trinatha_Youth_All_Donation_Receipts.pdf");
+            doc.save("Sri_Trinatha_Youth_All_Receipts_4in1_A4.pdf");
         }
     </script>
 
