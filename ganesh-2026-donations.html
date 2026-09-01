@@ -211,6 +211,9 @@
 </head>
 <body>
 
+    <!-- Hidden Canvas to Render Lord Ganesha Icon for jsPDF -->
+    <canvas id="ganeshaCanvas" width="100" height="100" style="display:none;"></canvas>
+
     <!-- Back Button -->
     <div class="nav-bar">
         <a href="ganesh-2026.html" class="btn-back">← Back to 2026 Dashboard</a>
@@ -239,7 +242,7 @@
 
             <div class="metric-card action-card">
                 <div class="metric-title">Printable 4-in-1 Export</div>
-                <p style="font-size: 0.85rem; color: #555; margin-top: 4px;">Download 1/4 A4 size colored receipts (4 per page) formatted for printing.</p>
+                <p style="font-size: 0.85rem; color: #555; margin-top: 4px;">Download 1/4 A4 colorful receipts (4 per page) with Ganesha imagery.</p>
                 <button class="btn-download-all" onclick="downloadAllReceipts()">📄 Download All Receipts</button>
             </div>
 
@@ -268,6 +271,32 @@
         const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=DONATIONS`;
 
         let donorsData = [];
+        let ganeshaImgData = null;
+
+        // Render Ganesha Vector Icon to Data URL
+        window.onload = function() {
+            const canvas = document.getElementById('ganeshaCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Draw Ganesha Graphical Symbol
+            ctx.fillStyle = '#b71c1c';
+            ctx.beginPath();
+            // Crown / Mukut
+            ctx.moveTo(50, 5); ctx.lineTo(35, 25); ctx.lineTo(65, 25); ctx.closePath(); ctx.fill();
+            // Ears & Face
+            ctx.beginPath(); ctx.arc(50, 42, 18, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(28, 38, 10, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(72, 38, 10, 0, Math.PI * 2); ctx.fill();
+            // Trunk
+            ctx.strokeStyle = '#b71c1c'; ctx.lineWidth = 7; ctx.lineCap = 'round';
+            ctx.beginPath(); ctx.moveTo(50, 48); ctx.quadraticCurveTo(50, 75, 32, 70); ctx.stroke();
+            // Tilak
+            ctx.fillStyle = '#ffb300';
+            ctx.fillRect(44, 30, 12, 3);
+            ctx.beginPath(); ctx.arc(50, 36, 2.5, 0, Math.PI * 2); ctx.fill();
+
+            ganeshaImgData = canvas.toDataURL('image/png');
+        };
 
         fetch(csvUrl)
             .then(response => response.text())
@@ -337,163 +366,168 @@
             });
         }
 
-        /* Helper to Draw a Single Colorful 1/4 A4 Sized Receipt Slip */
+        /* Draw Exact 1/4 A4 Sized (100mm x 140mm) Colorful Receipt Block */
         function drawReceiptSlip(doc, x, y, width, height, donor) {
-            // Background Fill & Double Border
+            // Background Base
             doc.setFillColor(255, 252, 245);
             doc.rect(x, y, width, height, 'F');
 
-            doc.setDrawColor(183, 28, 28); // Crimson Red Outer Border
-            doc.setLineWidth(1);
+            // Outer Crimson Frame & Inner Gold Border
+            doc.setDrawColor(183, 28, 28);
+            doc.setLineWidth(1.2);
             doc.rect(x + 1.5, y + 1.5, width - 3, height - 3);
 
-            doc.setDrawColor(255, 143, 0); // Inner Gold Border
-            doc.setLineWidth(0.5);
-            doc.rect(x + 3, y + 3, width - 6, height - 6);
+            doc.setDrawColor(255, 179, 0);
+            doc.setLineWidth(0.6);
+            doc.rect(x + 3.2, y + 3.2, width - 6.4, height - 6.4);
 
-            // Header Banner Fill
+            // Top Header Ribbon
             doc.setFillColor(183, 28, 28);
-            doc.rect(x + 3.5, y + 3.5, width - 7, 22, 'F');
+            doc.rect(x + 3.8, y + 3.8, width - 7.6, 26, 'F');
 
-            // Header Text
-            doc.setTextColor(255, 235, 59); // Yellow / Gold Text
+            // Ganesha Image Icon in Header
+            if (ganeshaImgData) {
+                doc.addImage(ganeshaImgData, 'PNG', x + 6, y + 6, 18, 18);
+            }
+
+            // Header Typography
+            doc.setTextColor(255, 235, 59);
             doc.setFontSize(7);
             doc.setFont("helvetica", "bold");
-            doc.text("|| SHRI GANESHAYA NAMAH ||", x + (width / 2), y + 7.5, { align: "center" });
+            doc.text("|| SHRI GANESHAYA NAMAH ||", x + (width / 2) + 6, y + 9, { align: "center" });
 
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(10.5);
+            doc.setFontSize(11);
             doc.setFont("helvetica", "bold");
-            doc.text("SRI TRINATHA YOUTH", x + (width / 2), y + 13, { align: "center" });
+            doc.text("SRI TRINATHA YOUTH", x + (width / 2) + 6, y + 15, { align: "center" });
 
             doc.setFontSize(6.5);
             doc.setFont("helvetica", "normal");
-            doc.text("Somappa Colony | Ganesh Utsav 2026", x + (width / 2), y + 18, { align: "center" });
+            doc.text("Somappa Colony | Ganesh Utsav 2026", x + (width / 2) + 6, y + 21, { align: "center" });
 
-            // Lord Ganesha Decorative Motif Text / Icon Symbol
-            doc.setTextColor(183, 28, 28);
-            doc.setFontSize(18);
-            doc.setFont("helvetica", "bold");
-            doc.text("卐 🕉 卐", x + (width / 2), y + 32, { align: "center" });
-
-            // Receipt Title Line
+            // Receipt Subhead Badge
             doc.setDrawColor(183, 28, 28);
             doc.setFillColor(255, 243, 224);
-            doc.roundedRect(x + 20, y + 36, width - 40, 6, 1, 1, 'FD');
+            doc.roundedRect(x + 15, y + 33, width - 30, 7, 1.5, 1.5, 'FD');
 
-            doc.setFontSize(7.5);
-            doc.setTextColor(183, 28, 28);
-            doc.text("OFFICIAL DONATION RECEIPT", x + (width / 2), y + 40.2, { align: "center" });
-
-            // Receipt Info Grid
-            doc.setTextColor(50, 50, 50);
-            doc.setFontSize(7.5);
-            doc.setFont("helvetica", "normal");
-
-            doc.text(`No: STY-2026-${String(donor.id).padStart(3, '0')}`, x + 6, y + 49);
-            doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, x + width - 6, y + 49, { align: "right" });
-
-            doc.setDrawColor(230, 230, 230);
-            doc.line(x + 6, y + 51, x + width - 6, y + 51);
-
-            // Donor Name
-            doc.text("Received with thanks from:", x + 6, y + 57);
+            doc.setFontSize(8);
             doc.setFont("helvetica", "bold");
-            doc.setFontSize(9);
             doc.setTextColor(183, 28, 28);
-            doc.text(`${donor.name}`, x + 6, y + 64);
+            doc.text("DONATION RECEIPT", x + (width / 2), y + 38, { align: "center" });
 
-            // Category & Details
+            // Details Block
+            doc.setTextColor(60, 60, 60);
+            doc.setFontSize(7.5);
+            doc.setFont("helvetica", "bold");
+            doc.text(`Receipt No: STY-2026-${String(donor.id).padStart(3, '0')}`, x + 6, y + 47);
+
             doc.setFont("helvetica", "normal");
-            doc.setFontSize(7);
+            doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, x + width - 6, y + 47, { align: "right" });
+
+            doc.setDrawColor(220, 220, 220);
+            doc.line(x + 6, y + 50, x + width - 6, y + 50);
+
+            // Donor Information
+            doc.setFontSize(7.5);
+            doc.text("Received with thanks from:", x + 6, y + 57);
+            
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(10);
+            doc.setTextColor(183, 28, 28);
+            doc.text(`${donor.name}`, x + 6, y + 65);
+
+            doc.setFont("helvetica", "normal");
+            doc.setFontSize(7.5);
             doc.setTextColor(80, 80, 80);
-            doc.text(`Towards: ${donor.category}`, x + 6, y + 71);
+            doc.text(`Towards: ${donor.category}`, x + 6, y + 73);
 
             // Amount Box
             doc.setFillColor(232, 245, 233);
             doc.setDrawColor(46, 125, 50);
-            doc.rect(x + 6, y + 76, width - 12, 12, 'FD');
+            doc.roundedRect(x + 6, y + 79, width - 12, 14, 1, 1, 'FD');
 
             doc.setTextColor(46, 125, 50);
             doc.setFont("helvetica", "bold");
-            doc.setFontSize(8);
-            doc.text("AMOUNT:", x + 10, y + 83.5);
-            doc.setFontSize(10.5);
-            doc.text(`Rs. ${donor.amount.toLocaleString('en-IN')} /-`, x + width - 10, y + 84, { align: "right" });
+            doc.setFontSize(8.5);
+            doc.text("AMOUNT PAID:", x + 10, y + 88);
 
-            // Footer Signature area
-            doc.setTextColor(100, 100, 100);
+            doc.setFontSize(11);
+            doc.text(`₹ ${donor.amount.toLocaleString('en-IN')} /-`, x + width - 10, y + 88.5, { align: "right" });
+
+            // Blessings & Signature
+            doc.setTextColor(120, 120, 120);
             doc.setFontSize(6.5);
             doc.setFont("helvetica", "normal");
-            doc.text("May Lord Ganesha Bless You & Your Family", x + (width / 2), y + 95, { align: "center" });
+            doc.text("May Lord Ganesha Bless You & Your Family!", x + (width / 2), y + 101, { align: "center" });
 
             doc.setFont("helvetica", "bold");
             doc.setTextColor(183, 28, 28);
-            doc.text("For SRI TRINATHA YOUTH", x + width - 8, y + 103, { align: "right" });
+            doc.setFontSize(7.5);
+            doc.text("For SRI TRINATHA YOUTH", x + width - 8, y + 112, { align: "right" });
 
             doc.setFont("helvetica", "normal");
-            doc.setTextColor(120, 120, 120);
-            doc.text("(Authorized Signatory)", x + width - 8, y + 108, { align: "right" });
+            doc.setTextColor(100, 100, 100);
+            doc.setFontSize(6.5);
+            doc.text("(Authorized Signatory)", x + width - 8, y + 117, { align: "right" });
         }
 
-        /* Single 1/4 A4 Receipt Download */
+        /* Single 1/4 A4 Receipt Download (Dimensions: 105mm x 148.5mm - Exact A6) */
         function downloadSingleReceipt(index) {
             const donor = donorsData[index];
             const { jsPDF } = window.jspdf;
             
-            // 1/4th A4 Dimensions: 100mm x 115mm Custom Page Size
             const doc = new jsPDF({
                 orientation: 'p',
                 unit: 'mm',
-                format: [100, 115]
+                format: [105, 148.5]
             });
 
-            drawReceiptSlip(doc, 0, 0, 100, 115, donor);
+            drawReceiptSlip(doc, 2.5, 4, 100, 140, donor);
             doc.save(`Receipt_STY_2026_${donor.name.replace(/\s+/g, '_')}.pdf`);
         }
 
-        /* Download All Receipts - 4 Per A4 Sheet Layout */
+        /* Download All Receipts - Exactly 4 Receipts Grid Layout Per A4 Sheet */
         function downloadAllReceipts() {
             if (donorsData.length === 0) {
-                alert("No donor data available.");
+                alert("No donor records loaded.");
                 return;
             }
 
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF('p', 'mm', 'a4'); // Standard A4 (210mm x 297mm)
+            const doc = new jsPDF('p', 'mm', 'a4'); // A4 size: 210mm x 297mm
 
             const receiptWidth = 100;
             const receiptHeight = 140;
 
-            // Positioning 4 receipts in a 2x2 grid on A4
+            // 4 Quad Coordinates on A4 Page
             const positions = [
-                { x: 4, y: 6 },    // Top Left
-                { x: 106, y: 6 },  // Top Right
-                { x: 4, y: 150 },  // Bottom Left
-                { x: 106, y: 150 } // Bottom Right
+                { x: 3, y: 3 },     // Top-Left
+                { x: 107, y: 3 },   // Top-Right
+                { x: 3, y: 150 },   // Bottom-Left
+                { x: 107, y: 150 }  // Bottom-Right
             ];
 
             donorsData.forEach((donor, i) => {
                 const posIndex = i % 4;
 
-                // Add a new A4 page every 4 receipts
+                // Create a new A4 page every 4 receipts
                 if (i > 0 && posIndex === 0) {
                     doc.addPage();
                 }
 
-                // Draw Grid Cut Lines on A4
-                doc.setDrawColor(200, 200, 200);
+                // Dotted Cut Lines Guide for Printing
+                doc.setDrawColor(180, 180, 180);
                 doc.setLineDashPattern([2, 2], 0);
-                doc.line(105, 0, 105, 297); // Vertical Center Cutting Line
-                doc.line(0, 148.5, 210, 148.5); // Horizontal Center Cutting Line
-                doc.setLineDashPattern([], 0); // Reset dash pattern
+                doc.line(105, 0, 105, 297);     // Vertical Divider
+                doc.line(0, 148.5, 210, 148.5); // Horizontal Divider
+                doc.setLineDashPattern([], 0);  // Reset line dash
 
-                // Draw the colorful receipt slip
+                // Draw Receipt Slip in target quadrant
                 const pos = positions[posIndex];
                 drawReceiptSlip(doc, pos.x, pos.y, receiptWidth, receiptHeight, donor);
             });
 
-            doc.save("Sri_Trinatha_Youth_All_Receipts_4in1_A4.pdf");
+            doc.save("Sri_Trinatha_Youth_Donation_Receipts_4in1_A4.pdf");
         }
     </script>
 
