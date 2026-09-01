@@ -366,7 +366,7 @@
             });
         }
 
-        /* Draw Exact 1/4 A4 Sized (100mm x 140mm) Colorful Receipt Block */
+        /* Draw Exact 1/4 A4 Sized (100mm x 140mm) Colorful Receipt Block with Large Name & Centered Amount */
         function drawReceiptSlip(doc, x, y, width, height, donor) {
             // Background Base
             doc.setFillColor(255, 252, 245);
@@ -383,76 +383,79 @@
 
             // Top Header Ribbon
             doc.setFillColor(183, 28, 28);
-            doc.rect(x + 3.8, y + 3.8, width - 7.6, 26, 'F');
+            doc.rect(x + 3.8, y + 3.8, width - 7.6, 25, 'F');
 
             // Ganesha Image Icon in Header
             if (ganeshaImgData) {
-                doc.addImage(ganeshaImgData, 'PNG', x + 6, y + 6, 18, 18);
+                doc.addImage(ganeshaImgData, 'PNG', x + 5.5, y + 5.5, 18, 18);
             }
 
             // Header Typography
             doc.setTextColor(255, 235, 59);
             doc.setFontSize(7);
             doc.setFont("helvetica", "bold");
-            doc.text("|| SHRI GANESHAYA NAMAH ||", x + (width / 2) + 6, y + 9, { align: "center" });
+            doc.text("|| SHRI GANESHAYA NAMAH ||", x + (width / 2) + 6, y + 8.5, { align: "center" });
 
             doc.setTextColor(255, 255, 255);
             doc.setFontSize(11);
             doc.setFont("helvetica", "bold");
-            doc.text("SRI TRINATHA YOUTH", x + (width / 2) + 6, y + 15, { align: "center" });
+            doc.text("SRI TRINATHA YOUTH", x + (width / 2) + 6, y + 14.5, { align: "center" });
 
             doc.setFontSize(6.5);
             doc.setFont("helvetica", "normal");
-            doc.text("Somappa Colony | Ganesh Utsav 2026", x + (width / 2) + 6, y + 21, { align: "center" });
+            doc.text("Somappa Colony | Ganesh Utsav 2026", x + (width / 2) + 6, y + 20, { align: "center" });
 
             // Receipt Subhead Badge
             doc.setDrawColor(183, 28, 28);
             doc.setFillColor(255, 243, 224);
-            doc.roundedRect(x + 15, y + 33, width - 30, 7, 1.5, 1.5, 'FD');
+            doc.roundedRect(x + 15, y + 31, width - 30, 6.5, 1.5, 1.5, 'FD');
 
-            doc.setFontSize(8);
-            doc.setFont("helvetica", "bold");
-            doc.setTextColor(183, 28, 28);
-            doc.text("DONATION RECEIPT", x + (width / 2), y + 38, { align: "center" });
-
-            // Details Block
-            doc.setTextColor(60, 60, 60);
             doc.setFontSize(7.5);
             doc.setFont("helvetica", "bold");
-            doc.text(`Receipt No: STY-2026-${String(donor.id).padStart(3, '0')}`, x + 6, y + 47);
+            doc.setTextColor(183, 28, 28);
+            doc.text("DONATION RECEIPT", x + (width / 2), y + 35.5, { align: "center" });
+
+            // Details Block Header
+            doc.setTextColor(70, 70, 70);
+            doc.setFontSize(7);
+            doc.setFont("helvetica", "bold");
+            doc.text(`Receipt No: STY-2026-${String(donor.id).padStart(3, '0')}`, x + 6, y + 43);
 
             doc.setFont("helvetica", "normal");
-            doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, x + width - 6, y + 47, { align: "right" });
+            doc.text(`Date: ${new Date().toLocaleDateString('en-IN')}`, x + width - 6, y + 43, { align: "right" });
 
             doc.setDrawColor(220, 220, 220);
-            doc.line(x + 6, y + 50, x + width - 6, y + 50);
+            doc.line(x + 6, y + 46, x + width - 6, y + 46);
 
-            // Donor Information
-            doc.setFontSize(7.5);
-            doc.text("Received with thanks from:", x + 6, y + 57);
+            // Donor Information Section
+            doc.setFontSize(7);
+            doc.text("Received with thanks from:", x + 6, y + 52);
             
+            // LARGER DONOR NAME
             doc.setFont("helvetica", "bold");
-            doc.setFontSize(10);
+            doc.setFontSize(13);
             doc.setTextColor(183, 28, 28);
-            doc.text(`${donor.name}`, x + 6, y + 65);
+            doc.text(`${donor.name}`, x + 6, y + 60);
 
+            // Category Info
             doc.setFont("helvetica", "normal");
             doc.setFontSize(7.5);
             doc.setTextColor(80, 80, 80);
-            doc.text(`Towards: ${donor.category}`, x + 6, y + 73);
+            doc.text(`Towards: ${donor.category}`, x + 6, y + 68);
 
-            // Amount Box
+            // CENTERED & PROMINENT AMOUNT BOX
             doc.setFillColor(232, 245, 233);
             doc.setDrawColor(46, 125, 50);
-            doc.roundedRect(x + 6, y + 79, width - 12, 14, 1, 1, 'FD');
+            doc.setLineWidth(0.8);
+            doc.roundedRect(x + 8, y + 74, width - 16, 18, 2, 2, 'FD');
 
             doc.setTextColor(46, 125, 50);
             doc.setFont("helvetica", "bold");
-            doc.setFontSize(8.5);
-            doc.text("AMOUNT PAID:", x + 10, y + 88);
+            doc.setFontSize(7.5);
+            doc.text("AMOUNT RECEIVED", x + (width / 2), y + 80, { align: "center" });
 
-            doc.setFontSize(11);
-            doc.text(`₹ ${donor.amount.toLocaleString('en-IN')} /-`, x + width - 10, y + 88.5, { align: "right" });
+            doc.setFontSize(13);
+            doc.text(`₹ ${donor.amount.toLocaleString('en-IN')} /-`, x + (width / 2), y + 88, { align: "center" });
 
             // Blessings & Signature
             doc.setTextColor(120, 120, 120);
