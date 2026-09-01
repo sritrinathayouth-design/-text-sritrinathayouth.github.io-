@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donations Dashboard 2026 - Sri Trinatha Youth</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            text-align: center; 
+            padding: 30px 15px; 
+            background-color: #fff9f0; 
+            color: #333; 
+            line-height: 1.6;
+        }
+
+        .nav-bar {
+            text-align: left;
+            max-width: 900px;
+            margin: 0 auto 20px auto;
+        }
+
+        .btn-back {
+            display: inline-block;
+            background-color: #333;
+            color: #ffffff;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, #b71c1c, #e65100);
+            color: #ffffff;
+            padding: 30px 20px;
+            border-radius: 12px;
+            max-width: 900px;
+            margin: 0 auto 25px auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            margin-top: 6px;
+            font-size: 1rem;
+            color: #ffe0b2;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Summary Dashboard Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .metric-card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            border-left: 6px solid #d9381e;
+            text-align: left;
+        }
+
+        .metric-card.accent {
+            border-left-color: #2e7d32;
+        }
+
+        .metric-title {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #d9381e;
+            margin-top: 10px;
+        }
+
+        .metric-card.accent .metric-value {
+            color: #2e7d32;
+        }
+
+        .card { 
+            background: #ffffff; 
+            margin-bottom: 25px; 
+            padding: 25px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
+            text-align: left;
+        }
+
+        .card h2 {
+            color: #d9381e;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #ff9800;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .spreadsheet-container {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .spreadsheet-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .btn-sheet {
+            display: inline-block;
+            background-color: #2e7d32;
+            color: #ffffff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back Button -->
+    <div class="nav-bar">
+        <a href="ganesh-2026.html" class="btn-back">← Back to 2026 Dashboard</a>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <h1>DONATIONS DASHBOARD 2026</h1>
+        <p>Sri Trinatha Youth | Somappa Colony</p>
+    </header>
+
+    <div class="container">
+
+        <!-- Summary Metric Cards -->
+        <div class="metrics-grid">
+            
+            <!-- Tile 1: Count of Donations (Column A) -->
+            <div class="metric-card">
+                <div class="metric-title">Total Donations Count</div>
+                <div class="metric-value" id="donationCount">Loading...</div>
+            </div>
+
+            <!-- Tile 2: Sum of Donations Amount (Column C) -->
+            <div class="metric-card accent">
+                <div class="metric-title">Total Amount Collected</div>
+                <div class="metric-value" id="donationSum">Loading...</div>
+            </div>
+
+        </div>
+
+        <!-- Embedded Spreadsheet Section -->
+        <div class="card">
+            <h2>Live Donors List & Details</h2>
+            <p>Below is the live updated record from our official donations spreadsheet.</p>
+            
+            <div class="spreadsheet-container">
+                <iframe src="https://docs.google.com/spreadsheets/d/19yXWLDgER536zBeVi28EDTa7pC6kxo-HNXXC8lTqFxQ/preview?gid=0"></iframe>
+            </div>
+
+            <div style="text-align: right;">
+                <a href="https://docs.google.com/spreadsheets/d/19yXWLDgER536zBeVi28EDTa7pC6kxo-HNXXC8lTqFxQ/edit?gid=0#gid=0" target="_blank" class="btn-sheet">
+                    Open Full Sheet ↗
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© Sri Trinatha Youth, Somappa Colony. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Script to Fetch CSV Data and Calculate Totals -->
+    <script>
+        const sheetID = '19yXWLDgER536zBeVi28EDTa7pC6kxo-HNXXC8lTqFxQ';
+        const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=DONATIONS`;
+
+        fetch(csvUrl)
+            .then(response => response.text())
+            .then(csvText => {
+                const rows = csvText.split('\n').filter(row => row.trim() !== '');
+                
+                // Exclude header row if present
+                const dataRows = rows.slice(1);
+                
+                // Tile 1: Count of Column A
+                let count = 0;
+                let totalSum = 0;
+
+                dataRows.forEach(row => {
+                    // Parse CSV row respecting quoted fields
+                    const columns = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || row.split(',');
+                    
+                    if (columns && columns.length > 0) {
+                        const colA = columns[0] ? columns[0].replace(/"/g, '').trim() : '';
+                        if (colA !== '') {
+                            count++;
+                        }
+                    }
+
+                    if (columns && columns.length >= 3) {
+                        // Extract Column C value and clean currency characters
+                        let colCVal = columns[2] ? columns[2].replace(/"/g, '').replace(/[^0-9.-]+/g, '') : '0';
+                        let num = parseFloat(colCVal);
+                        if (!isNaN(num)) {
+                            totalSum += num;
+                        }
+                    }
+                });
+
+                // Display results in dashboard tiles
+                document.getElementById('donationCount').innerText = count;
+                document.getElementById('donationSum').innerText = '₹ ' + totalSum.toLocaleString('en-IN');
+            })
+            .catch(error => {
+                console.error('Error fetching Google Sheet data:', error);
+                document.getElementById('donationCount').innerText = 'N/A';
+                document.getElementById('donationSum').innerText = 'N/A';
+            });
+    </script>
+
+</body>
+</html>
