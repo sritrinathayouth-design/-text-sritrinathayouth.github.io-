@@ -332,7 +332,7 @@
                 });
 
                 document.getElementById('donationCount').innerText = count;
-                document.getElementById('donationSum').innerText = '₹ ' + totalSum.toLocaleString('en-IN');
+                document.getElementById('donationSum').innerText = 'Rs. ' + totalSum.toLocaleString('en-IN');
 
                 renderDonorList(donorsData);
             })
@@ -358,7 +358,7 @@
                         <p><strong>Category:</strong> ${donor.category} | <strong>Receipt No:</strong> STY-2026-${String(donor.id).padStart(3, '0')}</p>
                     </div>
                     <div style="display: flex; align-items: center; gap: 20px;">
-                        <div class="donor-amount">₹ ${donor.amount.toLocaleString('en-IN')}</div>
+                        <div class="donor-amount">Rs. ${donor.amount.toLocaleString('en-IN')}</div>
                         <button class="btn-receipt" onclick="downloadSingleReceipt(${idx})">Download Receipt</button>
                     </div>
                 `;
@@ -443,7 +443,7 @@
             doc.setTextColor(80, 80, 80);
             doc.text(`Towards: ${donor.category}`, x + 6, y + 68);
 
-            // CENTERED & PROMINENT AMOUNT BOX
+            // CENTERED & PROMINENT AMOUNT BOX (No extra prefix characters)
             doc.setFillColor(232, 245, 233);
             doc.setDrawColor(46, 125, 50);
             doc.setLineWidth(0.8);
@@ -455,7 +455,7 @@
             doc.text("AMOUNT RECEIVED", x + (width / 2), y + 80, { align: "center" });
 
             doc.setFontSize(13);
-            doc.text(`₹ ${donor.amount.toLocaleString('en-IN')} /-`, x + (width / 2), y + 88, { align: "center" });
+            doc.text(`Rs. ${donor.amount.toLocaleString('en-IN')} /-`, x + (width / 2), y + 88, { align: "center" });
 
             // Blessings & Signature
             doc.setTextColor(120, 120, 120);
