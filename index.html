@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sri Trinatha Youth - Somappa Colony</title>
+
     <style>
         * {
             box-sizing: border-box;
@@ -14,34 +15,24 @@
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
             text-align: center; 
-            padding: 30px 15px; 
+            padding: 40px 15px; 
+            background-color: #fff9f0; 
             color: #333; 
             line-height: 1.6;
-            
-            /* Fallback dark orange/red background color */
-            background-color: #8c1d03;
-            
-            /* Fullscreen Background Image with Dark Overlay - Updated for .jpeg extension */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url('./youthphoto.jpeg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            min-height: 100vh;
         }
 
         header {
-            background: linear-gradient(135deg, rgba(183, 28, 28, 0.92), rgba(230, 81, 0, 0.92));
+            background: linear-gradient(135deg, #b71c1c, #e65100);
             color: #ffffff;
-            padding: 35px 20px;
+            padding: 40px 20px;
             border-radius: 12px;
-            max-width: 650px;
+            max-width: 900px;
             margin: 0 auto 30px auto;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         header h1 {
-            font-size: 2rem;
+            font-size: 2.2rem;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
@@ -53,80 +44,79 @@
         }
 
         .container {
-            max-width: 650px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        .card { 
-            background: rgba(255, 255, 255, 0.95); 
-            margin-bottom: 25px; 
-            padding: 25px; 
-            border-radius: 12px; 
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25); 
-            text-align: left;
-            border-left: 6px solid #d9381e;
-            transition: transform 0.2s ease-in-out;
+        .main-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 30px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-top: 6px solid #d9381e;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .card:hover {
-            transform: translateY(-2px);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card.whatsapp-card {
+            border-top-color: #25d366; /* WhatsApp Green */
         }
 
         .card h2 {
-            color: #d9381e;
             font-size: 1.4rem;
-            border-bottom: 2px solid #ff9800;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
+            color: #d9381e;
+            margin-bottom: 10px;
+        }
+
+        .card.whatsapp-card h2 {
+            color: #128c7e;
         }
 
         .card p {
-            font-size: 0.98rem;
-            color: #444;
-            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 20px;
         }
 
-        .btn-container {
-            text-align: right;
-        }
-
-        .btn-tile {
+        .btn-action {
             display: inline-block;
             background-color: #d9381e;
             color: #ffffff;
             padding: 10px 20px;
-            text-decoration: none;
             border-radius: 6px;
             font-weight: bold;
             font-size: 0.9rem;
-            transition: background 0.3s;
         }
 
-        .btn-tile:hover {
-            background-color: #b71c1c;
-        }
-
-        .whatsapp-card {
-            text-align: center;
-            border-left: 6px solid #25d366;
-        }
-
-        .btn-whatsapp {
-            display: inline-block;
+        .card.whatsapp-card .btn-action {
             background-color: #25d366;
-            color: #ffffff;
-            padding: 12px 28px;
-            text-decoration: none;
-            border-radius: 25px;
-            font-weight: bold;
-            font-size: 1rem;
+        }
+
+        .card:hover .btn-action {
+            opacity: 0.9;
         }
 
         footer {
-            margin-top: 40px;
+            margin-top: 60px;
             font-size: 0.85rem;
-            color: #ffffff;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+            color: #777;
         }
     </style>
 </head>
@@ -135,49 +125,31 @@
     <!-- Main Header -->
     <header>
         <h1>SRI TRINATHA YOUTH</h1>
-        <p>Somappa Colony | Official Portal</p>
+        <p>Somappa Colony | Community Celebrations & Initiatives</p>
     </header>
 
     <div class="container">
+        
+        <div class="main-grid">
 
-        <!-- About Card -->
-        <div class="card">
-            <h2>About Our Youth Group</h2>
-            <p>Welcome to the official portal of <strong>Sri Trinatha Youth, Somappa Colony</strong>. Select a festival tile below to view detailed event info and programs.</p>
-        </div>
+            <!-- Ganesh Utsav Card -->
+            <a href="ganesh-utsav.html" class="card">
+                <div>
+                    <h2>Ganesh Utsav</h2>
+                    <p>Access celebration accounts, donation details, receipts, and photo galleries.</p>
+                </div>
+                <span class="btn-action">Explore Celebrations →</span>
+            </a>
 
-        <!-- Tile 1: Pongal -->
-        <div class="card">
-            <h2>1. Pongal Celebrations</h2>
-            <p>Explore details regarding annual harvest festival celebrations, games, rangoli competitions, and community events.</p>
-            <div class="btn-container">
-                <a href="pongal.html" class="btn-tile">Open Festival Details →</a>
-            </div>
-        </div>
+            <!-- Contact Us WhatsApp Link -->
+            <a href="https://chat.whatsapp.com/FdPqnTRIM8X4W7q67qeMPd" target="_blank" class="card whatsapp-card">
+                <div>
+                    <h2>Contact Us</h2>
+                    <p>Join our official WhatsApp group for updates, discussions, and direct communication.</p>
+                </div>
+                <span class="btn-action">Join WhatsApp Group 💬</span>
+            </a>
 
-        <!-- Tile 2: Maha Shivaratri -->
-        <div class="card">
-            <h2>2. Maha Shivaratri</h2>
-            <p>Explore information on Puja schedules, devotional Jagaram programs, and Shivaratri cultural arrangements.</p>
-            <div class="btn-container">
-                <a href="shivaratri.html" class="btn-tile">Open Festival Details →</a>
-            </div>
-        </div>
-
-        <!-- Tile 3: Ganesh Utsav -->
-        <div class="card">
-            <h2>3. Ganesh Utsav</h2>
-            <p>Explore pandal setup, daily Aarti schedules, Maha Prasad distributions, and Visarjan procession info.</p>
-            <div class="btn-container">
-                <a href="ganesh-utsav.html" class="btn-tile">Open Festival Details →</a>
-            </div>
-        </div>
-
-        <!-- WhatsApp Contact -->
-        <div class="card whatsapp-card">
-            <h2 style="color: #25d366; border-bottom: 2px solid #25d366;">Connect With Us</h2>
-            <p>For donations (Vargani), volunteering, or event inquiries in Somappa Colony, feel free to contact us.</p>
-            <a href="https://wa.me/" class="btn-whatsapp" target="_blank">Contact on WhatsApp</a>
         </div>
 
     </div>
