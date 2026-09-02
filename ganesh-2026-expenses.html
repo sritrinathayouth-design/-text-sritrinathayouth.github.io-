@@ -243,21 +243,26 @@
                 let totalSum = 0;
                 let tableHTML = '';
 
-                dataRows.forEach((row) => {
+                dataRows.forEach((row, index) => {
                     const columns = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || row.split(',');
                     
                     if (columns && columns.length > 0) {
-                        const description = columns[0] ? columns[0].replace(/"/g, '').trim() : '';
-                        let colAmountVal = columns[1] ? columns[1].replace(/"/g, '').replace(/[^0-9.-]+/g, '') : '0';
+                        // Extracting Column A (S.No), Column B (Description), and Column C (Amount)
+                        const rawColA = columns[0] ? columns[0].replace(/"/g, '').trim() : '';
+                        const description = columns[1] ? columns[1].replace(/"/g, '').trim() : '';
+                        let colAmountVal = columns[2] ? columns[2].replace(/"/g, '').replace(/[^0-9.-]+/g, '') : '0';
                         let numAmount = parseFloat(colAmountVal) || 0;
 
-                        if (description !== '') {
+                        // Fallback to auto index if Col A is empty
+                        const sno = rawColA !== '' ? rawColA : (index + 1);
+
+                        if (description !== '' || rawColA !== '') {
                             count++;
                             totalSum += numAmount;
 
                             tableHTML += `
                                 <tr>
-                                    <td class="sno-col">${count}</td>
+                                    <td class="sno-col">${sno}</td>
                                     <td>${description}</td>
                                     <td class="amount-col">Rs. ${numAmount.toLocaleString('en-IN')}</td>
                                 </tr>
