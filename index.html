@@ -16,19 +16,24 @@
             font-family: 'Segoe UI', Arial, sans-serif; 
             text-align: center; 
             padding: 40px 15px; 
-            background-color: #fff9f0; 
             color: #333; 
             line-height: 1.6;
+            
+            /* Background Image Setup */
+            background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url('youthphoto.jpeg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
         }
 
         header {
-            background: linear-gradient(135deg, #b71c1c, #e65100);
+            background: linear-gradient(135deg, rgba(183, 28, 28, 0.95), rgba(230, 81, 0, 0.95));
             color: #ffffff;
             padding: 40px 20px;
             border-radius: 12px;
             max-width: 900px;
             margin: 0 auto 30px auto;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(4px);
         }
 
         header h1 {
@@ -56,10 +61,10 @@
         }
 
         .card {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.96);
             padding: 30px 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
             border-top: 6px solid #d9381e;
             text-decoration: none;
             color: inherit;
@@ -68,11 +73,13 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
+            backdrop-filter: blur(2px);
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+            background: #ffffff;
         }
 
         .card.qr-card {
@@ -99,7 +106,7 @@
 
         .card p {
             font-size: 0.95rem;
-            color: #666;
+            color: #555;
             margin-bottom: 15px;
         }
 
@@ -123,6 +130,7 @@
             border-radius: 6px;
             font-weight: bold;
             font-size: 0.9rem;
+            transition: background 0.2s;
         }
 
         .card.qr-card .btn-action {
@@ -140,7 +148,8 @@
         footer {
             margin-top: 60px;
             font-size: 0.85rem;
-            color: #777;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         }
     </style>
 </head>
