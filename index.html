@@ -75,6 +75,10 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
+        .card.qr-card {
+            border-top-color: #ff8f00; /* Gold / Accent */
+        }
+
         .card.whatsapp-card {
             border-top-color: #25d366; /* WhatsApp Green */
         }
@@ -85,6 +89,10 @@
             margin-bottom: 10px;
         }
 
+        .card.qr-card h2 {
+            color: #e65100;
+        }
+
         .card.whatsapp-card h2 {
             color: #128c7e;
         }
@@ -92,7 +100,19 @@
         .card p {
             font-size: 0.95rem;
             color: #666;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+        }
+
+        .qr-image {
+            width: 170px;
+            height: 170px;
+            object-fit: contain;
+            border: 3px solid #ffe0b2;
+            border-radius: 10px;
+            padding: 5px;
+            background: #fff;
+            margin: 10px 0 15px 0;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
         }
 
         .btn-action {
@@ -103,6 +123,10 @@
             border-radius: 6px;
             font-weight: bold;
             font-size: 0.9rem;
+        }
+
+        .card.qr-card .btn-action {
+            background-color: #e65100;
         }
 
         .card.whatsapp-card .btn-action {
@@ -140,6 +164,16 @@
                 </div>
                 <span class="btn-action">Explore Celebrations →</span>
             </a>
+
+            <!-- Donate via QR Code Card -->
+            <div class="card qr-card">
+                <div>
+                    <h2>Scan to Donate</h2>
+                    <p>Scan the QR code below to contribute towards Ganesh Utsav celebrations.</p>
+                    <img src="qrcode.jpeg" alt="Donation QR Code" class="qr-image">
+                </div>
+                <a href="ganesh-2026-donations.html" class="btn-action" style="text-decoration: none;">View Live Receipts →</a>
+            </div>
 
             <!-- Contact Us WhatsApp Link -->
             <a href="https://chat.whatsapp.com/FdPqnTRIM8X4W7q67qeMPd" target="_blank" class="card whatsapp-card">
