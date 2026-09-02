@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ganesh Utsav 2026 - Sri Trinatha Youth</title>
+
     <style>
         * {
             box-sizing: border-box;
@@ -22,7 +23,7 @@
 
         .nav-bar {
             text-align: left;
-            max-width: 650px;
+            max-width: 900px;
             margin: 0 auto 20px auto;
         }
 
@@ -40,79 +41,125 @@
         header {
             background: linear-gradient(135deg, #b71c1c, #e65100);
             color: #ffffff;
-            padding: 30px 20px;
+            padding: 35px 20px;
             border-radius: 12px;
-            max-width: 650px;
+            max-width: 900px;
             margin: 0 auto 25px auto;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         header h1 {
-            font-size: 1.8rem;
+            font-size: 2rem;
             letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         header p {
             margin-top: 6px;
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: #ffe0b2;
         }
 
         .container {
-            max-width: 650px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        .card { 
-            background: #ffffff; 
-            margin-bottom: 20px; 
-            padding: 20px 25px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); 
-            text-align: left;
+        /* Top Financial Summary Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .dash-card {
+            background: #ffffff;
+            padding: 22px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
             border-left: 6px solid #d9381e;
+            text-align: left;
+        }
+
+        .dash-card.donations {
+            border-left-color: #2e7d32;
+        }
+
+        .dash-card.expenses {
+            border-left-color: #c62828;
+        }
+
+        .dash-card.balance {
+            border-left-color: #1565c0;
+        }
+
+        .dash-title {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .dash-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .dash-card.donations .dash-value { color: #2e7d32; }
+        .dash-card.expenses .dash-value { color: #c62828; }
+        .dash-card.balance .dash-value { color: #1565c0; }
+
+        /* Module Navigation Cards Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+
+        .module-card {
+            background: #ffffff;
+            padding: 25px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid #ff9800;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             display: flex;
+            flex-direction: column;
             justify-content: space-between;
-            align-items: center;
-            transition: transform 0.2s ease-in-out;
+            text-align: left;
         }
 
-        .card:hover {
-            transform: translateY(-2px);
+        .module-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
         }
 
-        .card h2 {
+        .module-card h3 {
             color: #d9381e;
-            font-size: 1.3rem;
-            margin: 0;
+            font-size: 1.25rem;
+            margin-bottom: 8px;
         }
 
-        .card p {
+        .module-card p {
             font-size: 0.9rem;
             color: #666;
-            margin-top: 4px;
+            margin-bottom: 18px;
         }
 
-        .btn-tile {
+        .btn-link {
             display: inline-block;
-            background-color: #d9381e;
-            color: #ffffff;
-            padding: 8px 18px;
-            text-decoration: none;
-            border-radius: 6px;
+            color: #e65100;
             font-weight: bold;
-            font-size: 0.85rem;
-            transition: background 0.3s;
-            white-space: nowrap;
-        }
-
-        .btn-tile:hover {
-            background-color: #b71c1c;
+            font-size: 0.9rem;
         }
 
         footer {
-            margin-top: 40px;
+            margin-top: 50px;
             font-size: 0.85rem;
             color: #777;
         }
@@ -120,12 +167,12 @@
 </head>
 <body>
 
-    <!-- Back Button to Return to Year List -->
+    <!-- Back Button -->
     <div class="nav-bar">
-        <a href="ganesh-utsav.html" class="btn-back">← Back to Years List</a>
+        <a href="ganesh-utsav.html" class="btn-back">← Back to Years</a>
     </div>
 
-    <!-- Festival Header -->
+    <!-- Header -->
     <header>
         <h1>GANESH UTSAV 2026</h1>
         <p>Sri Trinatha Youth | Somappa Colony</p>
@@ -133,31 +180,72 @@
 
     <div class="container">
 
-        <!-- Sub-Tile 1: Memories -->
-        <div class="card">
-            <div>
-                <h2>1. Memories</h2>
-                <p>Photo gallery, event videos & festival highlights</p>
+        <!-- FINANCIAL DASHBOARD -->
+        <div class="dashboard-grid">
+            <div class="dash-card donations">
+                <div class="dash-title">Total Donations</div>
+                <div class="dash-value" id="dashDonations">Loading...</div>
             </div>
-            <a href="ganesh-2026-memories.html" class="btn-tile">View Gallery →</a>
+
+            <div class="dash-card expenses">
+                <div class="dash-title">Total Expenses</div>
+                <div class="dash-value" id="dashExpenses">Loading...</div>
+            </div>
+
+            <div class="dash-card balance">
+                <div class="dash-title">Net Available Balance</div>
+                <div class="dash-value" id="dashBalance">Loading...</div>
+            </div>
         </div>
 
-        <!-- Sub-Tile 2: Donations -->
-        <div class="card">
-            <div>
-                <h2>2. Donations (Vargani)</h2>
-                <p>Donor list, sponsors & contribution details</p>
-            </div>
-            <a href="ganesh-2026-donations.html" class="btn-tile">View Details →</a>
-        </div>
+        <!-- MODULE CARDS -->
+        <div class="modules-grid">
 
-        <!-- Sub-Tile 3: Expenses -->
-        <div class="card">
-            <div>
-                <h2>3. Expenses</h2>
-                <p>Pandal setup cost, Annadanam & festival accounts</p>
-            </div>
-            <a href="ganesh-2026-expenses.html" class="btn-tile">View Accounts →</a>
+            <!-- Card 1: Donations -->
+            <a href="ganesh-2026-donations.html" class="module-card">
+                <div>
+                    <h3>1. Donations</h3>
+                    <p>Live donor list, receipt generator & 4-in-1 PDF downloads.</p>
+                </div>
+                <span class="btn-link">View Donations →</span>
+            </a>
+
+            <!-- Card 2: Idol Selection -->
+            <a href="ganesh-2026-idol.html" class="module-card">
+                <div>
+                    <h3>2. Idol Selection</h3>
+                    <p>Browse proposed Ganesha idols, dimensions & designs.</p>
+                </div>
+                <span class="btn-link">View Idols →</span>
+            </a>
+
+            <!-- Card 3: Expenses -->
+            <a href="ganesh-2026-expenses.html" class="module-card">
+                <div>
+                    <h3>3. Expenses</h3>
+                    <p>Pandal setup cost, Annadanam & itemized festival accounts.</p>
+                </div>
+                <span class="btn-link">View Accounts →</span>
+            </a>
+
+            <!-- Card 4: Photo Gallery -->
+            <a href="ganesh-2026-photos.html" class="module-card">
+                <div>
+                    <h3>4. Photo Gallery</h3>
+                    <p>Event highlights, pooja photos and celebration videos.</p>
+                </div>
+                <span class="btn-link">View Gallery →</span>
+            </a>
+
+            <!-- Card 5: Executive Committee -->
+            <a href="ganesh-2026-committee.html" class="module-card">
+                <div>
+                    <h3>5. Executive Committee</h3>
+                    <p>Organizing team, roles, and event coordinator contacts.</p>
+                </div>
+                <span class="btn-link">View Committee →</span>
+            </a>
+
         </div>
 
     </div>
@@ -165,6 +253,69 @@
     <footer>
         <p>© Sri Trinatha Youth, Somappa Colony. All Rights Reserved.</p>
     </footer>
+
+    <!-- JavaScript Data Handler -->
+    <script>
+        const sheetID = '19yXWLDgER536zBeVi28EDTa7pC6kxo-HNXXC8lTqFxQ';
+        const donationsUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=DONATIONS`;
+        const expensesUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&gid=719106087`;
+
+        let totalDonations = 0;
+        let totalExpenses = 0;
+
+        // Fetch Donations Data
+        const fetchDonations = fetch(donationsUrl)
+            .then(res => res.text())
+            .then(csvText => {
+                const rows = csvText.split('\n').filter(r => r.trim() !== '').slice(1);
+                rows.forEach(row => {
+                    const columns = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || row.split(',');
+                    if (columns && columns.length > 0) {
+                        const colA = columns[0] ? columns[0].replace(/"/g, '').trim() : '';
+                        let colCVal = columns[2] ? columns[2].replace(/"/g, '').replace(/[^0-9.-]+/g, '') : '0';
+                        let num = parseFloat(colCVal) || 0;
+                        if (colA !== '') {
+                            totalDonations += num;
+                        }
+                    }
+                });
+            })
+            .catch(err => console.error("Error fetching donations:", err));
+
+        // Fetch Expenses Data
+        const fetchExpenses = fetch(expensesUrl)
+            .then(res => res.text())
+            .then(csvText => {
+                const rows = csvText.split('\n').filter(r => r.trim() !== '').slice(1);
+                rows.forEach(row => {
+                    const columns = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || row.split(',');
+                    if (columns && columns.length > 0) {
+                        const colA = columns[0] ? columns[0].replace(/"/g, '').trim() : '';
+                        const colB = columns[1] ? columns[1].replace(/"/g, '').trim() : '';
+                        let colCVal = columns[2] ? columns[2].replace(/"/g, '').replace(/[^0-9.-]+/g, '') : '0';
+                        let num = parseFloat(colCVal) || 0;
+                        if (colA !== '' || colB !== '') {
+                            totalExpenses += num;
+                        }
+                    }
+                });
+            })
+            .catch(err => console.error("Error fetching expenses:", err));
+
+        // Update Dashboard Cards after fetching both
+        Promise.all([fetchDonations, fetchExpenses]).then(() => {
+            const balance = totalDonations - totalExpenses;
+
+            document.getElementById('dashDonations').innerText = 'Rs. ' + totalDonations.toLocaleString('en-IN');
+            document.getElementById('dashExpenses').innerText = 'Rs. ' + totalExpenses.toLocaleString('en-IN');
+            document.getElementById('dashBalance').innerText = 'Rs. ' + balance.toLocaleString('en-IN');
+
+            // Set balance text color to red if negative
+            if (balance < 0) {
+                document.getElementById('dashBalance').style.color = '#c62828';
+            }
+        });
+    </script>
 
 </body>
 </html>
