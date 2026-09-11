@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donations 2026 - Sri Trinatha Youth</title>
 
-    <!-- Libraries for PDF & JPG Export -->
+    <!-- Export Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -35,6 +35,582 @@
             display: inline-block;
             background-color: #333;
             color: #ffffff;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, #b71c1c, #e65100);
+            color: #ffffff;
+            padding: 30px 20px;
+            border-radius: 12px;
+            max-width: 950px;
+            margin: 0 auto 25px auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        header p {
+            margin-top: 6px;
+            font-size: 1rem;
+            color: #ffe0b2;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        /* Metrics Summary Tile */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .metric-card {
+            background: #ffffff;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            border-left: 6px solid #2e7d32;
+            text-align: left;
+        }
+
+        .metric-title {
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-value {
+            font-size: 1.9rem;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-top: 6px;
+        }
+
+        /* Export Options Tile */
+        .export-card {
+            background: #ffffff;
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            text-align: left;
+            border-top: 5px solid #e65100;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .export-info h3 {
+            color: #b71c1c;
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .export-info p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .export-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-export {
+            padding: 10px 18px;
+            border-radius: 6px;
+            border: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #ffffff;
+        }
+
+        .btn-export:active {
+            transform: scale(0.98);
+        }
+
+        .btn-pdf { background-color: #c62828; }
+        .btn-jpg { background-color: #1565c0; }
+
+        .btn-export:hover { opacity: 0.9; }
+
+        /* Report / Table Container */
+        .table-card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        .report-header-banner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #ff9800;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            text-align: left;
+            gap: 15px;
+        }
+
+        .report-header-banner h2 {
+            color: #b71c1c;
+            font-size: 1.35rem;
+        }
+
+        .report-header-banner p {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .report-qr-box {
+            text-align: center;
+            background: #fff9f0;
+            border: 1px dashed #e65100;
+            padding: 6px 10px;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .report-qr-box img {
+            width: 85px;
+            height: 85px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .report-qr-box span {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: bold;
+            color: #e65100;
+            margin-top: 2px;
+        }
+
+        /* Table Styling */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        th {
+            background-color: #fff3e0;
+            color: #b71c1c;
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            border-bottom: 2px solid #ffe0b2;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        tr:nth-child(even) { background-color: #fafafa; }
+        tr:hover { background-color: #fff8e1; }
+
+        .amount-col {
+            text-align: right;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .sno-col {
+            width: 70px;
+            text-align: center;
+        }
+
+        .action-col {
+            text-align: center;
+            width: 140px;
+        }
+
+        tfoot tr {
+            background-color: #fff3e0;
+            border-top: 2px solid #ff9800;
+            font-weight: bold;
+        }
+
+        tfoot td {
+            padding: 14px 16px;
+            font-size: 1rem;
+            color: #b71c1c;
+        }
+
+        .btn-receipt {
+            background-color: #e65100;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-receipt:hover { background-color: #b71c1c; }
+
+        /* MODAL POPUP STYLES */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            border-radius: 12px;
+            max-width: 550px;
+            width: 100%;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            text-align: left;
+            position: relative;
+        }
+
+        .receipt-preview-box {
+            background: #fff9f0;
+            border: 2px solid #e65100;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .receipt-header {
+            text-align: center;
+            border-bottom: 2px dashed #e65100;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .receipt-header h3 {
+            color: #b71c1c;
+            margin-bottom: 2px;
+        }
+
+        .receipt-header p {
+            color: #e65100;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .receipt-details p {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .receipt-footer-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-modal-close {
+            background: #666;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-modal-download {
+            background: #2e7d32;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .hide-for-export { display: none !important; }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Back Navigation -->
+    <div class="nav-bar">
+        <a href="ganesh-2026.html" class="btn-back">← Back to 2026 Dashboard</a>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <h1>DONATIONS 2026</h1>
+        <p>Ganesh Utsav Live Contribution Records | Sri Trinatha Youth</p>
+    </header>
+
+    <div class="container">
+
+        <!-- 1. Metrics Summary Tile -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-title">Total Donations Collected</div>
+                <div class="metric-value" id="totalDonationSum">Loading...</div>
+            </div>
+
+            <div class="metric-card" style="border-left-color: #e65100;">
+                <div class="metric-title">Total Contributors</div>
+                <div class="metric-value" id="totalDonationCount" style="color: #e65100;">Loading...</div>
+            </div>
+        </div>
+
+        <!-- 2. Export Report Action Tile -->
+        <div class="export-card">
+            <div class="export-info">
+                <h3>Export Statement / Report</h3>
+                <p>Download the official donor list with total amount sum & QR code payment header.</p>
+            </div>
+            <div class="export-buttons">
+                <button class="btn-export btn-pdf" onclick="exportReport('pdf')">
+                    📄 Export Statement as PDF
+                </button>
+                <button class="btn-export btn-jpg" onclick="exportReport('jpg')">
+                    🖼️ Export Statement as JPG
+                </button>
+            </div>
+        </div>
+
+        <!-- 3. Report & Table Area -->
+        <div class="table-card" id="exportContainer">
+            
+            <div class="report-header-banner">
+                <div>
+                    <h2>SRI TRINATHA YOUTH - GANESH UTSAV 2026</h2>
+                    <p>Official Donation Ledger & Contribution Statement</p>
+                </div>
+                <div class="report-qr-box">
+                    <img src="qrcode.jpeg" alt="Scan to Donate QR Code">
+                    <span>Scan to Donate</span>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sno-col">S. No</th>
+                        <th>Donor Name</th>
+                        <th style="text-align: right;">Amount Incurred</th>
+                        <th class="action-col action-header">Receipt</th>
+                    </tr>
+                </thead>
+                <tbody id="donationTableBody">
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #888; padding: 20px;">Fetching live donation records...</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2" style="text-align: right; font-weight: bold;">TOTAL DONATIONS COLLECTED:</td>
+                        <td style="text-align: right; font-weight: bold; color: #2e7d32;" id="tableTotalFooter">Rs. 0</td>
+                        <td class="action-header"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+    </div>
+
+    <!-- RECEIPT MODAL POPUP -->
+    <div class="modal-overlay" id="receiptModal">
+        <div class="modal-card">
+            <div class="receipt-preview-box" id="modalReceiptContent">
+                <div class="receipt-header">
+                    <h3>SRI TRINATHA YOUTH</h3>
+                    <p>Ganesh Utsav 2026 Official Receipt</p>
+                </div>
+                <div class="receipt-details">
+                    <p><strong>Receipt No:</strong> <span id="modalRcpNo"></span></p>
+                    <p><strong>Donor Name:</strong> <span id="modalRcpName" style="color: #b71c1c; font-weight: bold;"></span></p>
+                    <p><strong>Amount Paid:</strong> <span id="modalRcpAmount" style="color: #2e7d32; font-weight: bold;"></span></p>
+                    <p><strong>Purpose:</strong> Ganesh Utsav 2026 Celebrations & Annadanam</p>
+                </div>
+                <div class="receipt-footer-flex">
+                    <div style="text-align: center;">
+                        <img src="qrcode.jpeg" style="width: 65px; height: 65px;" alt="QR">
+                        <p style="font-size: 0.7rem; color: #666; margin-top: 2px;">Sri Trinatha Youth</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="font-weight: bold; color: #b71c1c; font-size: 0.85rem;">Authorized Signatory</p>
+                        <p style="font-size: 0.75rem; color: #555;">Thank you for your blessings!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-modal-close" onclick="closeReceiptModal()">Close</button>
+                <button class="btn-modal-download" onclick="downloadModalReceiptPNG()">Download PNG Receipt</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© Sri Trinatha Youth, Somappa Colony. All Rights Reserved.</p>
+    </footer>
+
+    <!-- JavaScript Handler -->
+    <script>
+        const sheetID = '19yXWLDgER536zBeVi28EDTa7pC6kxo-HNXXC8lTqFxQ';
+        const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv&sheet=DONATIONS`;
+
+        let currentActiveDonor = { sno: '', name: '', amount: '' };
+
+        fetch(csvUrl)
+            .then(response => response.text())
+            .then(csvText => {
+                const rows = csvText.split('\n').filter(row => row.trim() !== '');
+                const dataRows = rows.slice(1);
+
+                let count = 0;
+                let totalSum = 0;
+                let tableHTML = '';
+
+                dataRows.forEach((row, index) => {
+                    const columns = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || row.split(',');
+                    
+                    if (columns && columns.length > 0) {
+                        const rawColA = columns[0] ? columns[0].replace(/"/g, '').trim() : '';
+                        const donorName = columns[1] ? columns[1].replace(/"/g, '').trim() : '';
+                        let colAmountVal = columns[2] ? columns[2].replace(/"/g, '').replace(/[^0-9.-]+/g, '') : '0';
+                        let numAmount = parseFloat(colAmountVal) || 0;
+
+                        const sno = rawColA !== '' ? rawColA : (index + 1);
+
+                        if (donorName !== '' || rawColA !== '') {
+                            count++;
+                            totalSum += numAmount;
+
+                            tableHTML += `
+                                <tr>
+                                    <td class="sno-col">${sno}</td>
+                                    <td>${donorName}</td>
+                                    <td class="amount-col">Rs. ${numAmount.toLocaleString('en-IN')}</td>
+                                    <td class="action-col">
+                                        <button class="btn-receipt" onclick="openReceiptModal('${sno}', '${donorName.replace(/'/g, "\\'")}', '${numAmount}')">
+                                            📜 Receipt
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                        }
+                    }
+                });
+
+                document.getElementById('totalDonationCount').innerText = count;
+                document.getElementById('totalDonationSum').innerText = 'Rs. ' + totalSum.toLocaleString('en-IN');
+                document.getElementById('tableTotalFooter').innerText = 'Rs. ' + totalSum.toLocaleString('en-IN');
+
+                const tbody = document.getElementById('donationTableBody');
+                if (count > 0) {
+                    tbody.innerHTML = tableHTML;
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #666;">No donation records found.</td></tr>';
+                }
+            })
+            .catch(error => {
+                console.error('Error loading donation records:', error);
+                document.getElementById('donationTableBody').innerHTML = '<tr><td colspan="4" style="text-align: center; color: red;">Unable to load donation list. Please check sheet permissions.</td></tr>';
+            });
+
+        // Open Receipt Modal Popup
+        function openReceiptModal(sno, name, amount) {
+            currentActiveDonor = { sno, name, amount };
+            document.getElementById('modalRcpNo').innerText = 'STY-2026-' + sno;
+            document.getElementById('modalRcpName').innerText = name;
+            document.getElementById('modalRcpAmount').innerText = 'Rs. ' + parseFloat(amount).toLocaleString('en-IN');
+            
+            document.getElementById('receiptModal').style.display = 'flex';
+        }
+
+        // Close Receipt Modal
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').style.display = 'none';
+        }
+
+        // Download PNG Receipt from Modal
+        function downloadModalReceiptPNG() {
+            const target = document.getElementById('modalReceiptContent');
+            html2canvas(target, { scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Receipt_${currentActiveDonor.sno}_${currentActiveDonor.name.replace(/\s+/g, '_')}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        // Export Full Report (PDF / JPG)
+        function exportReport(format) {
+            const element = document.getElementById('exportContainer');
+            
+            const actionHeaders = document.querySelectorAll('.action-header');
+            const actionCells = document.querySelectorAll('.action-col');
+
+            actionHeaders.forEach(el => el.classList.add('hide-for-export'));
+            actionCells.forEach(el => el.classList.add('hide-for-export'));
+
+            html2canvas(element, { 
+                scale: 2,
+                useCORS: true 
+            }).then(canvas => {
+                actionHeaders.forEach(el => el.classList.remove('hide-for-export'));
+                actionCells.forEach(el => el.classLi            color: #ffffff;
             padding: 8px 16px;
             text-decoration: none;
             border-radius: 6px;
